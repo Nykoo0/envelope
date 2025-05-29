@@ -168,7 +168,7 @@
     <div class="envelope">
       <div class="flap"></div>
     </div>
-    <div class="letter">Dear Reader, I love you sm</div>
+    <div class="letter">Dear Reader, you are retarded asf<333</div>
     <div class="hearts" id="hearts"></div>
     <div class="controls">
       <button onclick="closeEnvelope()">Close</button>
