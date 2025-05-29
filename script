@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Letter Envelope</title>
+  <style>
+    body {
+      background: #000000;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container {
+      position: relative;
+      width: 320px;
+      height: 220px;
+    }
+
+    .envelope {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+      border: 3px solid #ff85a2;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #ff69b4;
+      transform-origin: bottom;
+      transition: transform 1s;
+      z-index: 2;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(to bottom, #ff85a2, #ffc0cb);
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      z-index: 3;
+      transition: transform 1s;
+      transform-origin: top;
+    }
+
+    .letter {
+      position: absolute;
+      width: 90%;
+      height: 90%;
+      top: 5%;
+      left: 5%;
+      background: white;
+      border-radius: 10px;
+      padding: 1em;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 1s;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3em;
+      color: #ff69b4;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: visible;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      transform: rotate(45deg);
+      animation: floatUp 2s ease-out forwards;
+      opacity: 1;
+      filter: drop-shadow(0 0 3px white);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-200px) scale(0.8); opacity: 0; }
+    }
+
+    .controls {
+      position: absolute;
+      bottom: -60px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    button {
+      padding: 0.5em 1em;
+      background: #ff85a2;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 1em;
+      box-shadow: 0 0 10px #ff69b4;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    /* Watermark styles */
+    .watermark {
+      position: fixed;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.75em;
+      color: rgba(255, 255, 255, 0.25);
+      user-select: none;
+      pointer-events: none;
+      font-family: monospace, sans-serif;
+    }
+
+    .watermark a {
+      color: rgba(255, 255, 255, 0.25);
+      text-decoration: none;
+    }
+
+    .watermark a:hover {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="envelope">
+      <div class="flap"></div>
+    </div>
+    <div class="letter">Dear Reader, I love you sm</div>
+    <div class="hearts" id="hearts"></div>
+    <div class="controls">
+      <button onclick="closeEnvelope()">Close</button>
+      <button onclick="openEnvelope()">Open</button>
+    </div>
+  </div>
+
+  <div class="watermark">
+    Made by: Nykooo - <a href="https://shock.lol/$n" target="_blank" rel="noopener noreferrer">https://shock.lol/$n</a>
+  </div>
+
+  <script>
+    const envelope = document.querySelector('.envelope');
+    const flap = document.querySelector('.flap');
+    const letter = document.querySelector('.letter');
+    const heartsContainer = document.getElementById('hearts');
+
+    function openEnvelope() {
+      envelope.style.transform = 'rotateX(90deg)';
+      flap.style.transform = 'rotateX(-180deg)';
+      setTimeout(() => {
+        letter.style.opacity = 1;
+        spawnHearts();
+      }, 1000);
+    }
+
+    function closeEnvelope() {
+      envelope.style.transform = 'rotateX(0deg)';
+      flap.style.transform = 'rotateX(0deg)';
+      letter.style.opacity = 0;
+      heartsContainer.innerHTML = '';
+    }
+
+    function spawnHearts() {
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 300 + 'px';  // container width approx
+        heart.style.top = Math.random() * 200 + 'px';   // container height approx
+        heart.style.animationDelay = (Math.random() * 1) + 's';
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }
+    }
+  </script>
+</body>
+</html>
